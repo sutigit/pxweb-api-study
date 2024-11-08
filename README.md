@@ -40,8 +40,8 @@ Full state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/fi/Kuntien_avainluvut/uusin
 
 ### Usage
 1. Initiate Endpoint instance and give it the URL to be inspected
-2. Choose what to do with the results
-    
+2. View the results of each state.
+3. Choose what to do with the results   
 
 ### Output
 
