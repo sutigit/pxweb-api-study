@@ -6,8 +6,16 @@
 - [Modules](#modules)
 
 # Overview
-This project is about studying the API endpoints within the PxWeb API Statistics ecosystem. Especially what the endpoints provide, which endpoints can be useful to your project, response object structures, automating tasks and packaging results.
-More closely, this documentation will list the different processess and the software components related to each step. In the end of this documentation is an overview of related research to this project.
+This project is about studying the PxWeb API endpoints. What the endpoints provide, which endpoints can be useful to your project, response object structures, automating tasks and packaging results.
+
+### Modules
+- `endpoint_study.ipynb`
+- `endpoint_values_inspector.ipynb`
+- `endpoint_values_list_generator.ipynb`
+- `endpoint_values_list_testing.ipynb`
+
+Purpose and use of each module is described [below](#modules).
+
 
 # Prerequisites
 1. Knowledge of how to use PxWeb API's and their URL structures. See [here](https://pxdata.stat.fi/api1.html).
@@ -34,7 +42,7 @@ For example:
 1st state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/'
 2nd state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/fi/'
 3rd state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/fi/Kuntien_avainluvut/'
-4th state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/fi/Kuntien_avainluvut/uusin/'
+...
 Full state: 'https://pxdata.stat.fi:443/PxWeb/api/v1/fi/Kuntien_avainluvut/uusin/142h.px/'
 ```
 
