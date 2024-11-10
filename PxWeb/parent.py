@@ -1,8 +1,12 @@
 from . import session
 import json
 
+"""
+See origin of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
+"""
+
 class Parent(object):
-    def __init__(self, url, url_out, lang, *args):
+    def __init__(self, url, url_out, *args):
         self.ids = list(args)
         self.url = url
         self.url_out = url_out
