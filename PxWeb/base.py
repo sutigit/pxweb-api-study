@@ -5,7 +5,7 @@ import json
 See origin of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
 """
 
-class Parent(object):
+class Base(object):
     def __init__(self, url, url_out, *args):
         self.ids = list(args)
         self.url = url

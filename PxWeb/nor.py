@@ -1,6 +1,6 @@
-from .parent import Parent
+from .base import Base
 
-class PWN(Parent):
+class PWN(Base):
     def __init__(self, lang, *args):
         
         url = f'https://data.ssb.no/api/v0/{lang}/table/'

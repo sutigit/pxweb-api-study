@@ -2,4 +2,4 @@ import requests
 
 session = requests.Session()
 
-from .parent import Parent
+from .base import Base

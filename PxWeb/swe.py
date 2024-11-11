@@ -1,6 +1,6 @@
-from .parent import Parent
+from .base import Base
 
-class PWS(Parent):
+class PWS(Base):
     def __init__(self, lang, *args):
         
         url = f'https://api.scb.se/OV0104/v1/doris/{lang}/ssd/'
