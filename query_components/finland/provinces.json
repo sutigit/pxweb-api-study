@@ -1,23 +1,21 @@
-{
-    "provinces": [
-        "MK01 Uusimaa",
-        "MK02 Southwest Finland",
-        "MK04 Satakunta",
-        "MK05 Kanta-Häme",
-        "MK06 Pirkanmaa",
-        "MK07 Päijät-Häme",
-        "MK08 Kymenlaakso",
-        "MK09 South Karelia",
-        "MK10 South Savo",
-        "MK11 North Savo",
-        "MK12 North Karelia",
-        "MK13 Central Finland",
-        "MK14 South Ostrobothnia",
-        "MK15 Ostrobothnia",
-        "MK16 Central Ostrobothnia",
-        "MK17 North Ostrobothnia",
-        "MK18 Kainuu",
-        "MK19 Lapland",
-        "MK21 Åland"
-    ]
-}
+[
+    "MK01 Uusimaa",
+    "MK02 Southwest Finland",
+    "MK04 Satakunta",
+    "MK05 Kanta-Häme",
+    "MK06 Pirkanmaa",
+    "MK07 Päijät-Häme",
+    "MK08 Kymenlaakso",
+    "MK09 South Karelia",
+    "MK10 South Savo",
+    "MK11 North Savo",
+    "MK12 North Karelia",
+    "MK13 Central Finland",
+    "MK14 South Ostrobothnia",
+    "MK15 Ostrobothnia",
+    "MK16 Central Ostrobothnia",
+    "MK17 North Ostrobothnia",
+    "MK18 Kainuu",
+    "MK19 Lapland",
+    "MK21 Åland"
+]
