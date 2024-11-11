@@ -68,14 +68,29 @@ class Base(object):
         for kwarg in kwargs:
             for var in variables:
                 if var["text"].replace(' ' , '') == kwarg:
+                    # if var['code'] == 'Vuosi':
+                    #     print(type(kwargs[kwarg])) # kwargs[kwarg] is a list
+
+                    #     for j in range(len(var['values'])):
+                    #         if var['valueTexts'][j] == kwargs[kwarg]:
+                    #             print('valueText:' + var['valueTexts'][j] +  " == " + "kwarg:" + kwargs[kwarg])
+                    
+                    values = []
+                    
+                    for j in range(len(var['values'])):
+                        if type(kwargs[kwarg]) == list:
+                            if var['valueTexts'][j] in kwargs[kwarg]:
+                                values.append(var['values'][j])
+                        elif type(kwargs[kwarg]) == str:
+                            if var['valueTexts'][j] == kwargs[kwarg]:
+                                values.append(var['values'][j])
+                        
+                        
                     self.query["query"].append({
                             "code": var['code'],
                             "selection": {
                                     "filter": "item",
-                                    "values": [var['values'][j] for j in \
-                                               range(len(var['values'])) if \
-                                               var['valueTexts'][j] in \
-                                               kwargs[kwarg]]
+                                    "values": values
                                     }
                                 })
 
