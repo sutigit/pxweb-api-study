@@ -100,3 +100,26 @@ class Base(object):
         response = session.post(self.url + '/'.join(self.ids), json = self.query)
         response_json = json.loads(response.content.decode('utf-8-sig'))
         return response_json
+    
+    
+    def data_to_timeseries(self, data):
+        """ Converts the data to a timeseries format. """
+        
+        # self.get_query() is a method from the Base class
+        codes = self.get_query()['query'][0]['selection']['values']
+
+        regiondic = {}
+
+        for i in range(len(codes)):
+            regiondic[codes[i]] = codes[i]
+
+        regiondata = {}
+
+        for code in regiondic:
+            regiondata[regiondic[code]] = {}
+            for i in range(len(data)):
+                if data[i]['key'][0] == code:
+                    regiondata[regiondic[code]][data[i]['key'][1]] = \
+                    float(data[i]['values'][0])
+
+        return regiondata
