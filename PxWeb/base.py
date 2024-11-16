@@ -120,6 +120,6 @@ class Base(object):
             for i in range(len(data)):
                 if data[i]['key'][0] == code:
                     regiondata[regiondic[code]][data[i]['key'][1]] = \
-                    float(data[i]['values'][0])
+                    float(data[i]['values'][0]) if data[i]['values'][0] not in ['.', '..'] else None
 
         return regiondata
