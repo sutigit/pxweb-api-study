@@ -2,7 +2,7 @@ from . import session
 import json
 
 """
-See origin of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
+See Docs of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
 """
 
 class Base(object):
