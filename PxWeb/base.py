@@ -1,6 +1,11 @@
 from . import session
 import json
 
+from .num_utils import log_scale
+from .num_utils import inverse_log_scale
+from .num_utils import get_split_points
+from .num_utils import progressive_rounding
+
 """
 See Docs of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
 """
@@ -103,23 +108,100 @@ class Base(object):
     
     
     def data_to_timeseries(self, data):
-        """ Converts the data to a timeseries format. """
+        """ 
+        Converts the data to a timeseries object.
         
-        # self.get_query() is a method from the Base class
+        The timeseries data is structured as follows:
+        tsdata= {
+            meta: {
+                minYear: number,
+                maxYear: number,
+                minValue: number,
+                maxValue: number,
+                choropleth_tresholds: [number, number, ...],
+            }
+            regiondata: {
+                'code1': {
+                    'year1': number,
+                    'year2': number,
+                    ...
+                },
+                'code2': {
+                    'year1': number,
+                    'year2': number,
+                    ...
+                },
+                ...
+            }
+        } 
+        
+        @param data: The data from the get_data() function.
+        @type data: dict
+        @return: The timeseries data.
+        
+        """        
+        tsdata = {}
+        
         codes = self.get_query()['query'][0]['selection']['values']
 
+        # Building regiondic
         regiondic = {}
-
         for i in range(len(codes)):
             regiondic[codes[i]] = codes[i]
+            
+        
+        # Meta informations        
+        minYear = float('inf')
+        maxYear = float('-inf')
+        minValue = float('inf')
+        maxValue = float('-inf')
+        datavalues = []
 
+
+        # Building regiondata and meta information
         regiondata = {}
-
         for code in regiondic:
             regiondata[regiondic[code]] = {}
             for i in range(len(data)):
                 if data[i]['key'][0] == code:
-                    regiondata[regiondic[code]][data[i]['key'][1]] = \
-                    float(data[i]['values'][0]) if data[i]['values'][0] not in ['.', '..'] else None
+                    year = data[i]['key'][1]
+                    value = float(data[i]['values'][0]) if data[i]['values'][0] not in ['.', '..'] else None                    
+                    
+                    # regiondata
+                    regiondata[regiondic[code]][year] = value
+                    
+                    # meta information
+                    minYear = min(minYear, int(year))
+                    maxYear = max(maxYear, int(year))
+                    if value is not None:
+                        minValue = min(minValue, value)
+                        maxValue = max(maxValue, value)
+                        
+                        # datavalues for log scale split tresholds
+                        datavalues.append(value)
 
-        return regiondata
+
+        # Log scale the min and max values to compress the outliers in the datavalues
+        log_scaled = log_scale([minValue, maxValue])
+        
+        # Calculate the split points for the log scaled values
+        splits = get_split_points(min = log_scaled[0], max = [log_scaled[1]], splits = 5)
+        
+        # Inverse the log scale to get the original values
+        original_scale = inverse_log_scale(splits)
+        
+        # Round the values to prettier numbers
+        choropleth_tresholds = progressive_rounding(original_scale)
+        
+                    
+        tsdata['meta'] = {
+            'minYear': minYear,
+            'maxYear': maxYear,
+            'minValue': minValue,
+            'maxValue': maxValue,
+            'choropleth_tresholds': choropleth_tresholds
+        }
+        
+        tsdata['regiondata'] = regiondata
+
+        return tsdata
