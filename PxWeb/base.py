@@ -1,10 +1,9 @@
 from . import session
 import json
 
-from .num_utils import log_scale
-from .num_utils import inverse_log_scale
-from .num_utils import get_split_points
-from .num_utils import progressive_rounding
+from .num_utils import log_scale_thresholds
+from .num_utils import quantile_thresholds
+from .num_utils import progressive_round
 
 """
 See Docs of this Class pattern from: https://github.com/kirajcg/pyscbwrapper/blob/master/pyscbwrapper_en.ipynb
@@ -107,13 +106,15 @@ class Base(object):
         return response_json
     
     
-    def data_to_timeseries(self, data):
+    def data_to_timeseries(self, data, name):
         """ 
         Converts the data to a timeseries object.
         
         The timeseries data is structured as follows:
         tsdata= {
             meta: {
+                name: str,
+                url: str,
                 minYear: number,
                 maxYear: number,
                 minValue: number,
@@ -180,26 +181,19 @@ class Base(object):
                         # datavalues for log scale split tresholds
                         datavalues.append(value)
 
-
-        # Log scale the min and max values to compress the outliers in the datavalues
-        log_scaled = log_scale([minValue, maxValue])
         
-        # Calculate the split points for the log scaled values
-        splits = get_split_points(min = log_scaled[0], max = [log_scaled[1]], splits = 5)
-        
-        # Inverse the log scale to get the original values
-        original_scale = inverse_log_scale(splits)
-        
-        # Round the values to prettier numbers
-        choropleth_tresholds = progressive_rounding(original_scale)
+        tresholds = log_scale_thresholds(datavalues, num_bins=5)
+        rounded_tresholds = set([progressive_round(treshold, strategy="nearest") for treshold in tresholds])
+        choroplets_tresholds = sorted(list(rounded_tresholds))
         
                     
         tsdata['meta'] = {
+            'name': name,
             'minYear': minYear,
             'maxYear': maxYear,
             'minValue': minValue,
             'maxValue': maxValue,
-            'choropleth_tresholds': choropleth_tresholds
+            'choropleth_tresholds': choroplets_tresholds
         }
         
         tsdata['regiondata'] = regiondata
